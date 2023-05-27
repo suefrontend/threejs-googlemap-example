@@ -1,8 +1,24 @@
-import { useState } from "react";
+import { Wrapper } from "@googlemaps/react-wrapper";
+import Map from "./components/Map";
 import "./App.css";
 
 function App() {
-  return <div>App</div>;
+  const mapOptions = {
+    center: {
+      lat: 49.285,
+      lng: -123.120556,
+    },
+    zoom: 17,
+    heading: 0,
+    tilt: 80,
+    mapId: import.meta.env.VITE_MAP_ID,
+  };
+
+  return (
+    <Wrapper apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
+      <Map mapOptions={mapOptions} />
+    </Wrapper>
+  );
 }
 
 export default App;
