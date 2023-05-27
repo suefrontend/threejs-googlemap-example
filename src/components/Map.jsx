@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import Animation from "./Animation";
 
 function Map(props) {
   const [map, setMap] = useState();
@@ -12,6 +13,7 @@ function Map(props) {
   return (
     <>
       <div ref={ref} id="map" />
+      {map && <Animation map={map} mapOptions={props.mapOptions} />}
     </>
   );
 }

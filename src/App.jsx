@@ -5,12 +5,12 @@ import "./App.css";
 function App() {
   const mapOptions = {
     center: {
-      lat: 49.285,
+      lat: 49.286,
       lng: -123.120556,
     },
     zoom: 17,
-    heading: 0,
-    tilt: 80,
+    heading: 200,
+    tilt: 200,
     mapId: import.meta.env.VITE_MAP_ID,
   };
 
