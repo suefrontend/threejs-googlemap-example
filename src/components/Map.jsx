@@ -19,4 +19,5 @@ function Map(props) {
     </>
   );
 }
+
 export default Map;

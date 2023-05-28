@@ -23,13 +23,13 @@ const Text = (props) => {
       const title = "HYATT HOTEL VANCOUVER".split(" ");
 
       for (const index in title) {
-        createLine(title[index], index);
+        createTitle(title[index], index);
       }
 
-      function createLine(title, index) {
+      function createTitle(title, index) {
         let textGeometry = new TextGeometry(title, {
           font: font,
-          size: 60,
+          size: 35,
           height: 5,
         });
         const textMaterial = new THREE.MeshPhongMaterial({
@@ -46,7 +46,7 @@ const Text = (props) => {
           })
         );
         if (index !== 0) {
-          textMesh.position.setY(130 + index * 30);
+          textMesh.position.setY(130 + index * 15);
         } else {
           textMesh.position.setY(130);
         }
@@ -66,6 +66,24 @@ const Text = (props) => {
         overlay.scene.add(textMesh);
       }
     });
+
+    // Create a line
+    let material = new THREE.LineBasicMaterial({ color: 0x4285f4 });
+    const points = [];
+    points.push(new THREE.Vector3(0, 0, 0));
+    points.push(new THREE.Vector3(0, 120, 0));
+
+    let geometry = new THREE.BufferGeometry().setFromPoints(points);
+    let line = new THREE.Line(geometry, material);
+
+    line.position.copy(
+      overlay.latLngAltitudeToVector3({
+        lat: props.mapOptions.center.lat,
+        lng: props.mapOptions.center.lng,
+      })
+    );
+
+    overlay.scene.add(line);
   }, []);
 };
 
