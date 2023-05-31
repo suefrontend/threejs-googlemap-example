@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import * as THREE from "three";
 import { ThreeJSOverlayView } from "@googlemaps/three";
 
-const Animation = (props) => {
+function Animation(props) {
   useEffect(() => {
     props.map.setCenter(props.mapOptions.center);
     const overlay = new ThreeJSOverlayView({
@@ -41,6 +41,6 @@ const Animation = (props) => {
 
   // start the animation
   requestAnimationFrame(animateCamera);
-};
+}
 
 export default Animation;

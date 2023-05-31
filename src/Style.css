@@ -1,0 +1,23 @@
+.control {
+  width: 100%;
+  background-color: #007bff;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  padding: 20px;
+}
+.control ul {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+}
+.control ul button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #fff;
+  color: #007bff;
+  font-size: 1rem;
+  box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}

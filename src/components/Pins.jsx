@@ -18,7 +18,7 @@ const locations = [
   { lat: 49.287405, lng: -123.125083 },
 ];
 
-function Dog(props) {
+function Pins(props) {
   const dogRef = useRef();
 
   useEffect(() => {
@@ -34,6 +34,21 @@ function Dog(props) {
     overlay.setMap(props.map);
 
     const scene = overlay.scene;
+
+    // Pin test
+    const marker = new window.google.maps.Marker({
+      position: props.mapOptions.center,
+      // props.map,
+      titile: "TEST",
+    });
+    marker.setMap(props.map);
+
+    // InfoWindow TEST
+    var infowindow = new window.google.maps.InfoWindow({
+      content:
+        "388-A , Road no 22, Jubilee Hills, Hyderabad Telangana, INDIA-500033",
+    });
+    infowindow.open(props.map, marker);
 
     const loader = new GLTFLoader();
     loader.load("/low_australian_shepherd/scene.gltf", function (gltf) {
@@ -55,4 +70,4 @@ function Dog(props) {
   }, []);
 }
 
-export default Dog;
+export default Pins;
