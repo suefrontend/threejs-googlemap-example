@@ -84,6 +84,10 @@ const Text = (props) => {
     );
 
     overlay.scene.add(line);
+
+    return () => {
+      overlay.setMap(null); // Remove the overlay when the component unmounts
+    };
   }, []);
 };
 

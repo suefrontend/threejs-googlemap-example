@@ -35,21 +35,6 @@ function Pins(props) {
 
     const scene = overlay.scene;
 
-    // Pin test
-    const marker = new window.google.maps.Marker({
-      position: props.mapOptions.center,
-      // props.map,
-      titile: "TEST",
-    });
-    marker.setMap(props.map);
-
-    // InfoWindow TEST
-    var infowindow = new window.google.maps.InfoWindow({
-      content:
-        "388-A , Road no 22, Jubilee Hills, Hyderabad Telangana, INDIA-500033",
-    });
-    infowindow.open(props.map, marker);
-
     const loader = new GLTFLoader();
     loader.load("/low_australian_shepherd/scene.gltf", function (gltf) {
       for (let i = 0; i <= locations.length; i++) {
@@ -64,9 +49,12 @@ function Pins(props) {
           })
         );
         scene.add(cloneDog);
-        console.log("cloneDog", cloneDog);
       }
     });
+
+    return () => {
+      overlay.setMap(null); // Remove the overlay when the component unmounts
+    };
   }, []);
 }
 

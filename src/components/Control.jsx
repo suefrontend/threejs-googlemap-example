@@ -3,7 +3,7 @@ import "../Style.css";
 function Control(props) {
     const components = [
       { name: "Basic Animation", key: "animation" },
-    //   { name: "Dog walk to English Bay", key: "direction" },
+      { name: "Dog walk to English Bay", key: "direction" },
       { name: "Dogs on Street", key: "pins" },
       { name: "Text in the Air", key: "text" },
     ];

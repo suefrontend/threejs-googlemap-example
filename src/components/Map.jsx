@@ -1,14 +1,17 @@
 import { useState, useRef, useEffect } from "react";
-import Animation from "./Animation";
+import BasicAnimation from "./BasicAnimation";
 import Text from "./Text";
-import Dog from "./Dog";
+import Pins from "./Pins";
 import Control from "./Control";
+import Direction from "./Direction";
+import RouteAnimation from "./RouteAnimation";
 
 function Map(props) {
   const [map, setMap] = useState();
-  const [currentComponent, setCurrentComponent] = useState("animation");
+  const [route, setRoute] = useState();
+  const [currentComponent, setCurrentComponent] = useState();
   const ref = useRef();
-  console.log("current component", currentComponent);
+  // console.log("current component", currentComponent);
 
   useEffect(() => {
     const instance = new window.google.maps.Map(ref.current, props.mapOptions);
@@ -18,18 +21,31 @@ function Map(props) {
   return (
     <>
       <div ref={ref} id="map" />
+      {map && <Control setCurrentComponent={setCurrentComponent} />}
 
       {currentComponent === "animation" && map && (
-        <Animation map={map} mapOptions={props.mapOptions} />
+        <BasicAnimation map={map} mapOptions={props.mapOptions} />
       )}
       {currentComponent === "text" && map && (
         <Text map={map} mapOptions={props.mapOptions} />
       )}
       {currentComponent === "pins" && map && (
-        <Dog map={map} mapOptions={props.mapOptions} />
+        <Pins map={map} mapOptions={props.mapOptions} />
       )}
-      {/* {map && <Dog map={map} mapOptions={props.mapOptions} />}*/}
-      {map && <Control setCurrentComponent={setCurrentComponent} />}
+      {currentComponent === "direction" && map && (
+        <>
+          <Direction
+            map={map}
+            setRoute={setRoute}
+            mapOptions={props.mapOptions}
+          />
+          <RouteAnimation
+            map={map}
+            mapOptions={props.mapOptions}
+            route={route}
+          />
+        </>
+      )}
     </>
   );
 }
