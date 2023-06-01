@@ -1,0 +1,46 @@
+import React, { useEffect } from "react";
+import * as THREE from "three";
+import { ThreeJSOverlayView } from "@googlemaps/three";
+
+function ClickablePins(props) {
+  useEffect(() => {
+    props.map.setCenter(props.mapOptions.center);
+    const overlay = new ThreeJSOverlayView({
+      anchor: {
+        lat: props.mapOptions.center.lat,
+        lng: props.mapOptions.center.lng,
+        altitude: 0,
+      },
+      upAxis: "Y",
+    });
+    overlay.setMap(props.map);
+
+    const scene = overlay.scene;
+
+    // はじめ
+    /// まずはピンを表示させる
+    const marker = new window.google.maps.Marker({
+      position: props.mapOptions.center,
+    });
+    marker.setMap(props.map);
+
+    // InfoWindow TEST
+    // 実際の住所を表示させたい
+    var infowindow = new window.google.maps.InfoWindow({
+      content: "Address Comes Here",
+    });
+    infowindow.open(props.map, marker);
+
+    /// それをクリッカブルにする
+    /// クリックしたら、InfoWindowが出てくるようにする
+
+    // 最終ゴール
+    /// 自動でBurrard Station近くのホテルを取得して、ピンを打つ
+    /// ピンをクリックすると、InfoWindowが開く
+
+    return () => {
+      overlay.setMap(null); // Remove the overlay when the component unmounts
+    };
+  }, []);
+}
+export default ClickablePins;

@@ -5,6 +5,7 @@ import Pins from "./Pins";
 import Control from "./Control";
 import Direction from "./Direction";
 import RouteAnimation from "./RouteAnimation";
+import ClickablePins from "./ClickablePins";
 
 function Map(props) {
   const [map, setMap] = useState();
@@ -23,7 +24,7 @@ function Map(props) {
       <div ref={ref} id="map" />
       {map && <Control setCurrentComponent={setCurrentComponent} />}
 
-      {currentComponent === "animation" && map && (
+      {/* {currentComponent === "animation" && map && (
         <BasicAnimation map={map} mapOptions={props.mapOptions} />
       )}
       {currentComponent === "text" && map && (
@@ -45,7 +46,8 @@ function Map(props) {
             route={route}
           />
         </>
-      )}
+      )} */}
+      {map && <ClickablePins map={map} mapOptions={props.mapOptions} />}
     </>
   );
 }
