@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as THREE from "three";
 import { ThreeJSOverlayView } from "@googlemaps/three";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
+import "../App.css";
 
 function ClickablePins(props) {
   const [places, setPlaces] = useState([]);
@@ -12,7 +13,6 @@ function ClickablePins(props) {
     { name: "Rosewood Hotel Georgia" },
     { name: "Metropolitan Hotel Vancouver" },
     { name: "Days Inn by Wyndham Vancouver Downtown" },
-    { name: "St Regis Hotel" },
     { name: "EXchange Hotel Vancouver - An Executive Hotel" },
     { name: "Shangri-La Vancouver" },
     { name: "Vancouver Marriott Pinnacle Downtown Hotel" },
@@ -25,7 +25,6 @@ function ClickablePins(props) {
     const locationResult = await getGeocode({ address: name });
     const locationLatLng = await getLatLng(locationResult[0]);
 
-    // console.log("locationLatLng", locationLatLng);
     return locationLatLng;
   }
 
@@ -43,34 +42,39 @@ function ClickablePins(props) {
 
     const scene = overlay.scene;
 
-    for (const hotel of hotels) {
-      fetchDirections(hotel.name);
-    }
-
-    // はじめ
-    /// まずはピンを表示させる
-    const marker = new window.google.maps.Marker({
-      position: props.mapOptions.center,
-    });
-    marker.setMap(props.map);
-
-    // InfoWindow TEST
-    // 実際の住所を表示させたい
-    var infowindow = new window.google.maps.InfoWindow({
-      content: "Address Comes Here",
-    });
-    infowindow.open(props.map, marker);
-
-    /// それをクリッカブルにする
-    /// クリックしたら、InfoWindowが出てくるようにする
-
-    // 最終ゴール
-    /// 自動でBurrard Station近くのホテルを取得して、ピンを打つ
-    /// ピンをクリックすると、InfoWindowが開く
-
-    return () => {
-      overlay.setMap(null); // Remove the overlay when the component unmounts
+    const fetchData = async () => {
+      const placesData = [];
+      for (const hotel of hotels) {
+        const location = await fetchDirections(hotel.name);
+        placesData.push({ ...location, name: hotel.name });
+        console.log("placesData", placesData);
+      }
+      setPlaces(placesData); // Set the places state to the fetched locations
+      console.log("places", places);
     };
+    fetchData();
   }, []);
+
+  useEffect(() => {
+    if (places.length > 0) {
+      for (const place of places) {
+        const marker = new window.google.maps.Marker({
+          position: { lat: place.lat, lng: place.lng },
+          map: props.map,
+          animation: window.google.maps.Animation.DROP,
+        });
+
+        // InfoWindow TEST
+        const infowindow = new window.google.maps.InfoWindow({
+          content: place.name,
+          disableAutoPan: true, // Disable automatic panning 
+        });
+
+        marker.addListener("click", () => {
+          infowindow.open(props.map, marker);
+        });
+      }
+    }
+  }, [places, props.map]);
 }
 export default ClickablePins;
